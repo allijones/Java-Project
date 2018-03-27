@@ -1,13 +1,13 @@
 public class Employee {
-    Integer id;
-    String name;
-    Boolean mon;
-    Boolean tues;
-    Boolean wed;
-    Boolean thurs;
-    Boolean fri;
-    Boolean sat;
-    Boolean sun;
+    private Integer id;
+    private String name;
+    private Boolean mon;
+    private Boolean tues;
+    private Boolean wed;
+    private Boolean thurs;
+    private Boolean fri;
+    private Boolean sat;
+    private Boolean sun;
 
     public Integer getId() {
         return id;
