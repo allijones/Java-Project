@@ -4,12 +4,7 @@ import java.sql.*;
 
 public class Main {
     public static void main(String[] argv) throws SQLException {
-        DatabaseConnection myConnection = null;
-        myConnection.createConnection();
-        CreateTable newTable = null;
-        newTable.createTable();
-        CreateDaysTable newTable2 = null;
-        newTable2.createTable();
+        DBInterface database = DBInterface.create();
         //EmployeeGateway manip = new EmployeeGateway();
         Employee employee1 = new Employee();
 
@@ -20,5 +15,6 @@ public class Main {
         //for some reason this is giving me an error that says
         //the employees table does not exist... not sure why
         filter.save(employee1);
+        database.disconnect();
     }
 }
