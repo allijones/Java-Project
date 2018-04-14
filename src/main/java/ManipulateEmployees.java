@@ -4,7 +4,7 @@ import java.util.*;
 public class ManipulateEmployees {
 
     private static final String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-    private static final String DB_CONNECTION = "jdbc:derby:table1;";
+    private static final String DB_CONNECTION = "jdbc:derby:database;";
     private static final String DB_USER = "";
     private static final String DB_PASSWORD = "";
 
@@ -131,6 +131,7 @@ public class ManipulateEmployees {
      *
      * */
 
+    public ArrayList<Integer> idList = new ArrayList<Integer>();
     public void findAll() throws SQLException {
         Connection dbConnection = null;
         Statement statement = null;
@@ -146,9 +147,9 @@ public class ManipulateEmployees {
             } else {
                 do {
                     int id = rs.getInt("ID");
+                    idList.add(id);
                     String name = rs.getString("NAME");
-                    int age = rs.getInt("AGE");
-                    //System.out.println("id: " + id);
+                    System.out.println("id: " + id);
                     System.out.println("name : " + name);
                     //System.out.println("age: " + age);
                 } while(rs.next());
@@ -203,11 +204,53 @@ public class ManipulateEmployees {
         }
     }
 
+    /**
+     * count: counter total number of employees in database
+     *
+     * @param
+     *
+     * */
+    public int getThisId;
+    public void findById(int newId) throws SQLException {
+        Connection dbConnection = null;
+        Statement statement = null;
+        //how to set WHERE to e.id
+        String selectTableSQL = "SELECT * from EMPLOYEES WHERE ID = " + newId;
+        try {
+            dbConnection = getDBConnection();
+            statement = dbConnection.createStatement();
+            //System.out.println(selectTableSQL);
+            //statement.execute(selectTableSQL);
+            //System.out.println("Record is found in table!");
+            ResultSet rs = statement.executeQuery(selectTableSQL);
+            if (rs.next() == false) {
+                System.out.println("ResultSet in empty in Java");
+            } else {
+                do {
+                    System.out.println("Name: " + rs.getString("NAME"));
+                    getThisId = rs.getInt("ID");
+                } while(rs.next());
+            }
+
+        }
+        catch(SQLException h) {
+            System.out.println(h.getMessage());
+        }
+        finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+    }
+
 
     public void delete( ) throws SQLException{
         Connection dbConnection = null;
         Statement statement = null;
-        String deleteTableSQL = "DELETE FROM ALLBASEBALL WHERE 1=1";
+        String deleteTableSQL = "DELETE FROM EMPLOYEES WHERE 1=1";
         try {
             dbConnection = getDBConnection();
             statement = dbConnection.createStatement();
