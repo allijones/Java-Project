@@ -202,4 +202,32 @@ public class ManipulateEmployees {
             }
         }
     }
+
+
+    public void delete( ) throws SQLException{
+        Connection dbConnection = null;
+        Statement statement = null;
+        String deleteTableSQL = "DELETE FROM ALLBASEBALL WHERE 1=1";
+        try {
+            dbConnection = getDBConnection();
+            statement = dbConnection.createStatement();
+            System.out.println(deleteTableSQL);
+            // execute delete SQL stetement
+            statement.execute(deleteTableSQL);
+            System.out.println("All records are deleted from table!");
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+    }
+
+
 }

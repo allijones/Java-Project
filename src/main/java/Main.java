@@ -8,6 +8,8 @@ public class Main {
         myConnection.createConnection();
         CreateTable newTable = null;
         newTable.createTable();
+        CreateDaysTable newTable2 = null;
+        newTable2.createTable();
         //EmployeeGateway manip = new EmployeeGateway();
         Employee employee1 = new Employee();
 
@@ -15,6 +17,8 @@ public class Main {
         employee1.setId(0);
         ManipulateEmployees filter = new ManipulateEmployees();
 
+        //for some reason this is giving me an error that says
+        //the employees table does not exist... not sure why
         filter.save(employee1);
     }
 }
