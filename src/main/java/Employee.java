@@ -1,13 +1,9 @@
+import java.util.List;
+
 public class Employee {
-    private Integer id;
+    private Integer id = 0;
     private String name;
-    private Boolean mon;
-    private Boolean tues;
-    private Boolean wed;
-    private Boolean thurs;
-    private Boolean fri;
-    private Boolean sat;
-    private Boolean sun;
+    private boolean[] schedule = new boolean[7];
 
     public Integer getId() {
         return id;
@@ -21,46 +17,10 @@ public class Employee {
     public void setName(String name) {
         this.name = name;
     }
-    public Boolean getMon() {
-        return mon;
+    public boolean isAvalible(Day day) {
+        return schedule[day.getVal()];
     }
-    public void setMon(Boolean mon) {
-        this.mon = mon;
-    }
-    public Boolean getTues() {
-        return tues;
-    }
-    public void setTues(Boolean tues) {
-        this.tues = tues;
-    }
-    public Boolean getWed() {
-        return wed;
-    }
-    public void setWed(Boolean wed) {
-        this.wed = wed;
-    }
-    public Boolean getThurs() {
-        return thurs;
-    }
-    public void setThurs(Boolean thurs) {
-        this.thurs = thurs;
-    }
-    public Boolean getFri() {
-        return fri;
-    }
-    public void setFri(Boolean fri) {
-        this.fri = fri;
-    }
-    public Boolean getSat() {
-        return sat;
-    }
-    public void setSat(Boolean sat) {
-        this.sat = sat;
-    }
-    public Boolean getSun() {
-        return sun;
-    }
-    public void setSun(Boolean sun) {
-        this.sun = sun;
+    public void setAvalability(Day day, boolean status) {
+        schedule[day.getVal()] = status;
     }
 }
