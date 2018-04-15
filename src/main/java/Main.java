@@ -7,10 +7,8 @@ public class Main {
         DBInterface database = DBInterface.create();
         //EmployeeGateway manip = new EmployeeGateway();
         Employee employee1 = new Employee();
-
         employee1.setName("Alli");
-        employee1.setId(0);
-        ManipulateEmployees filter = new ManipulateEmployees();
+        ManipulateEmployees filter = new ManipulateEmployees(database);
 
         //for some reason this is giving me an error that says
         //the employees table does not exist... not sure why
