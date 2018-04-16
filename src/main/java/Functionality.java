@@ -10,7 +10,7 @@ public class Functionality {
 
         if(n == 1){
             ManipulateDays available = new ManipulateDays();
-            ManipulateEmployees filter = new ManipulateEmployees();
+            ManipulateEmployees filter = new ManipulateEmployees(DBInterface.create());
             available.availableMonday();
             for(int i = 0; i < available.mondayList.size(); i++){
                 filter.findById(available.mondayList.get(i));

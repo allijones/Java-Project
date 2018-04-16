@@ -23,4 +23,15 @@ public class Employee {
     public void setAvalability(Day day, boolean status) {
         schedule[day.getVal()] = status;
     }
+
+    public boolean[] getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(boolean[] schedule) {
+        this.schedule = schedule;
+    }
+    public void setSchedule(boolean sun, boolean mon, boolean tues, boolean wed, boolean thur, boolean fri, boolean sat) {
+        this.schedule = new boolean[]{sun, mon, tues, wed, thur, fri, sat};
+    }
 }

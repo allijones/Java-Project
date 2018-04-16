@@ -40,13 +40,13 @@ public class ManipulateDays {
         String insertTableSQL = "INSERT INTO WEEK" + "(ID, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATRUDAY, SUNDAY)" +
                 "VALUES" + "("
                 + p.getId() + ", "
-                + p.getMon() + ", "
-                + p.getTues() + ", "
-                + p.getWed() + ", "
-                + p.getThurs() + ", "
-                + p.getFri() + ", "
-                + p.getSat() + ", "
-                + p.getSun()
+                + p.getSchedule()[Day.Monday.getVal()] + ", "
+                + p.getSchedule()[Day.Tuesday.getVal()] + ", "
+                + p.getSchedule()[Day.Wednesday.getVal()] + ", "
+                + p.getSchedule()[Day.Thursday.getVal()] + ", "
+                + p.getSchedule()[Day.Friday.getVal()] + ", "
+                + p.getSchedule()[Day.Saturday.getVal()] + ", "
+                + p.getSchedule()[Day.Sunday.getVal()]
                 + ")";
         try {
             dbConnection = getDBConnection();

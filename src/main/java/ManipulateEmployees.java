@@ -113,43 +113,24 @@ public class ManipulateEmployees {
      * */
     public int getThisId;
     public void findById(int newId) throws SQLException {
-        Connection dbConnection = null;
-        Statement statement = null;
         //how to set WHERE to e.id
         String selectTableSQL = "SELECT * from EMPLOYEES WHERE ID = " + newId;
-        try {
-            dbConnection = getDBConnection();
-            statement = dbConnection.createStatement();
-            //System.out.println(selectTableSQL);
-            //statement.execute(selectTableSQL);
-            //System.out.println("Record is found in table!");
-            ResultSet rs = statement.executeQuery(selectTableSQL);
-            if (rs.next() == false) {
-                System.out.println("ResultSet in empty in Java");
-            } else {
-                do {
-                    System.out.println("Name: " + rs.getString("NAME"));
-                    getThisId = rs.getInt("ID");
-                } while(rs.next());
-            }
-
+        //System.out.println(selectTableSQL);
+        //statement.execute(selectTableSQL);
+        //System.out.println("Record is found in table!");
+        ResultSet rs = dbInterface.runStatement(selectTableSQL);
+        if (rs.next() == false) {
+            System.out.println("ResultSet in empty in Java");
         }
-        catch(SQLException h) {
-            System.out.println(h.getMessage());
-        }
-        finally {
-            if (statement != null) {
-                statement.close();
-            }
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
-        }
+        do {
+            System.out.println("Name: " + rs.getString("NAME"));
+            getThisId = rs.getInt("ID");
+        } while(rs.next());
     }
 
 
     public void delete( ) throws SQLException{
-        String deleteTableSQL = "DELETE FROM ALLBASEBALL WHERE 1=1";
+        String deleteTableSQL = "DELETE FROM EMPLOYEES WHERE 1=1";
         System.out.println(deleteTableSQL);
         // execute delete SQL stetement
         dbInterface.runStatement(deleteTableSQL);
