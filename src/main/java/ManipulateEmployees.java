@@ -73,7 +73,7 @@ public class ManipulateEmployees extends DBManipulator{
             do {
                 int id = rs.getInt("ID");
                 String name = rs.getString("NAME");
-                int age = rs.getInt("AGE");
+                //int age = rs.getInt("AGE");
                 //System.out.println("id: " + id);
                 System.out.println("name : " + name);
                 //System.out.println("age: " + age);
