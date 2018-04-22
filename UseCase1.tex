@@ -1,0 +1,269 @@
+\documentclass[12pt]{article}
+\pagestyle{empty}
+\textheight = 10in
+%\addtolength{\voffset}{-1in}
+\addtolength{\topmargin}{-1in}
+\usepackage{geometry}
+\geometry{letterpaper, margin=1in}
+\usepackage{nopageno}
+\usepackage{color}
+\usepackage[all]{xy}
+\usepackage{graphicx}
+\usepackage[none]{hyphenat}
+\usepackage{array}
+\setlength\extrarowheight{3pt} 
+
+
+% Header, put stuff that impacts the whole document here
+\NeedsTeXFormat{LaTeX2e}
+\title{Use Cases\\Java and Software Project}
+\author{Alli Jones and Aidan Edwards} 
+
+
+\begin{document}
+
+\maketitle 
+\thispagestyle{empty}
+
+\section*{Vision Statement}
+
+The goal of this project is to create a schedule-maker that can be used in a restruant  or retail store to help the managers of the store create weekly schedules for their employees.  The goal is not to create a schedule, but to design an interface that has access to a databse of current employees that will be able to interact with the manager as he/she creates the weekly schedule, or updates an exisiting schedule.  The schedule-maker will provide the manager with lists of employee names and their ID number for each day, allowing the manager to easily select employees to work on every day of the week.  After assisting the manager in creating or updating a schedule, this software application will send the schedule to a CSV file so that the manager can access it easily, and print it easily.
+
+\section*{Requirements}
+
+\begin{enumerate}
+
+\item
+Access a database of current employees
+
+\item
+Provide options to create a schedule
+
+\item
+Provide option to update an existing schedule
+
+\item
+Send schedule to CSV file
+
+\item
+Allow the user to enter an already existing CSV file to update
+
+
+\end{enumerate}
+
+\section*{Business Rules}
+
+\begin{enumerate}
+
+\item
+There must be at least 3 employees working on every day of the week
+
+\item
+One employee cannot work more than 5 times a week
+
+\item
+No more than 5 employees can work on one day of the week
+
+\end{enumerate}
+
+\section*{ Use Case 1: Creating a Schedule}
+
+\begin{enumerate}
+
+
+\item 
+System provides user with option to create a schedule
+
+\item
+User selects option
+
+\item
+System automatically starts with Monday.  System provides user with a list of employee names and ID numbers that are avalaible to work on Monday.
+
+\item
+System asks user to select and enter 3 employee ID numbers to fill that day.
+
+\item
+User selects and enters 3 employee ID numbers into the system.
+
+\item
+System then repeats this same process for Tuesday-Sunday.
+
+\item
+After each day is filled, the system asks the user to enter a name for the CSV file that the schedule will be printed to
+
+\item
+User enters a name for their CSV file
+
+\item
+System creates CSV file and informs user that it has been created
+
+\item
+System asks user if he/she would like to make another schedule.
+
+\item
+User selects no
+
+\item
+System closes
+
+Alternative Paths:
+
+3. *No employees are avalaible to work on Monday (or any day)
+
+3.1 System informs user that no employees can work on that day and asks user if he/she would like to continue to Tuesday or quit the process
+
+3.1.A User selects the option to continue making the schedule and the system continues normally
+
+3.1.B User selects the option to quit the process and the system closes
+
+5. *User selects less than 3 employees to work on a certain day
+
+5.1 System informs user that he/she must have 3 employees per day and asks user to enter the correct number of employee IDs.
+
+5.2 User enters required IDs and syste continues normally
+
+11. *User selects yes
+
+11.1 Process repeats
+
+
+\end{enumerate}
+
+\section*{ Use Case 2: Adding an Employee to the Schedule}
+
+\begin{enumerate}
+
+\item
+System provides user with option to update existing schedule
+
+\item
+User selects option
+
+\item
+System asks user to enter the title of the CSV file that he/she want to update
+
+\item
+User enters the CSV file name
+
+\item
+System asks user to enter which day they would like to update
+
+\item
+User enters day
+
+\item
+System displays the people that are working on that day
+
+\item
+System asks user to enter 2 to add an employee to that day
+
+\item
+User enter 2
+
+\item
+System searches database and provides user with a list of employee names and ID numbers that are avalaible to work on that day.
+
+\item
+System asks user to enter th ID number of the person that they want to add to the specified day.
+
+\item
+User enter ID number
+
+\item
+System add that person to that day
+
+\item
+System asks user if he/she would like to add another employee to the schedule
+
+\item
+User selects no
+
+\item
+System sends updates to the CSV file and informs user that changes were made
+
+\item
+System closes
+
+Alternative Paths:
+
+15. *User selects yes
+
+15.1 Process repeats
+
+\end{enumerate}
+
+\section*{ Use Case 3: Deleting an Employee from the Schedule}
+
+\begin{enumerate}
+
+ \item
+System provides user with option to update existing schedule
+
+\item
+User selects option
+
+\item
+System asks user to enter the title of the CVS file that he/she wants to update
+
+\item
+User enter CVS file name
+
+\item
+System asks user to enter which day they would like to update
+
+\item
+User enter day
+
+\item
+System displays the names and IDs of employees that are working on that day
+
+\item
+System asks user to enter 1 to delete an employee from that day
+
+\item
+User enters 1
+
+\item
+System asks user to enter the ID of the person they want to delete
+
+\item
+User enters ID
+
+\item
+System deletes that employee from that day
+
+\item
+System asks user if he/she would like to delete another employee
+
+\item
+User selects no
+
+\item
+System sends updates to the CSV file and informs user that changes were made
+
+\item
+System closes
+
+Alternative Paths:
+12* System deletes employee from day and there are now less than 3 employees working that day
+
+12.1 System informs user that there are not enough employees on that day and searches database for employees that are avalaible to work on that day, and asks user to add an employee to that day
+
+12.2 User enters ID of new employee to that day
+
+14. *User selects yes
+
+14.1 Process repeats
+
+
+\end{enumerate}
+
+
+\end{document}
+
+
+
+
+
+
