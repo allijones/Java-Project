@@ -20,7 +20,7 @@ public class ManipulateEmployees extends DBManipulator{
             String insertTableSQL = "INSERT INTO EMPLOYEES" + "(NAME)" + "VALUES" +
                     "("  + "'"+p.getName()+"'" +")";
             System.out.println(insertTableSQL);
-            dbInterface.runStatement(insertTableSQL);
+            p.setId(dbInterface.runStatementGetID(insertTableSQL));
             System.out.println("Record is inserted into table!");
         }
         //otherwise, update that ID number
