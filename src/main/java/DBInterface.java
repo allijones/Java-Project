@@ -90,6 +90,28 @@ public class DBInterface {
         }
         return out;
     }
+    public int runStatementGetID(String toRun) throws SQLException{
+        PreparedStatement statement = null;
+        ResultSet out = null;
+
+        try {
+            statement = connection.prepareStatement(toRun, Statement.RETURN_GENERATED_KEYS);
+            statement.executeUpdate();
+            out = statement.getResultSet();
+            //statement.close();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+            else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        }
+    }
 
     private Connection connection = null;
 }
