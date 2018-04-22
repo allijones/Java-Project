@@ -1,15 +1,9 @@
 import java.sql.*;
 import java.util.*;
 
-public class ManipulateEmployees {
-    private DBInterface dbInterface;
-
+public class ManipulateEmployees extends DBManipulator{
     public ManipulateEmployees(DBInterface dbInterface) {
-        this.dbInterface = dbInterface;
-    }
-
-    public void setDBInterface(DBInterface dbInterface) {
-        this.dbInterface = dbInterface;
+        super(dbInterface);
     }
 
     /**
