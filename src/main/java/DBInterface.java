@@ -14,7 +14,7 @@ public class DBInterface {
                 "WEDNESDAY BOOLEAN, " +
                 "THURSDAY BOOLEAN, " +
                 "FRIDAY BOOLEAN, " +
-                "SATRUDAY BOOLEAN, " +
+                "SATURDAY BOOLEAN, " +
                 "SUNDAY BOOLEAN " + ")");
         System.out.print("Table \"WEEK\" is created!");
     }

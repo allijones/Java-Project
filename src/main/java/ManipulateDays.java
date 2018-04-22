@@ -14,7 +14,7 @@ public class ManipulateDays extends DBManipulator {
      *
      * */
     public void save(Employee p) throws SQLException {
-    String insertTableSQL = "INSERT INTO WEEK" + "(ID, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATRUDAY, SUNDAY)" +
+    String insertTableSQL = "INSERT INTO WEEK" + "(ID, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)" +
                 "VALUES" + "("
                 + p.getId() + ", "
                 + p.getSchedule()[Day.MONDAY.getVal()] + ", "
