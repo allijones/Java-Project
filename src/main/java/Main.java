@@ -129,12 +129,12 @@ public class Main {
             nameLength += 1;
             System.out.print(String.format("%1$-" + idLength + "s", "ID"));
             System.out.print(String.format("%1$-" + nameLength + "s", "Name"));
-            System.out.println("Availability");
+            System.out.println("S M T W R F S");
             for(Employee employee : employees){
                 System.out.print(String.format("%1$-" + idLength + "s", employee.getId()));
                 System.out.print(String.format("%1$-" + nameLength + "s", employee.getName()));
-                for(int i = 0; i < 6; i++){
-                    System.out.print(employee.getSchedule()[i]?"X":" ");
+                for(int i = 0; i < 7; i++){
+                    System.out.print(employee.getSchedule()[i]?"X ":"  ");
                 }
                 System.out.println();
             }
