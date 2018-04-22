@@ -63,4 +63,33 @@ public class ManipulateDays extends DBManipulator {
         dbInterface.runStatement(deleteTableSQL);
         System.out.println("All records are deleted from table!");
     }
+
+
+    /**
+     * loadAll: loads all entries in database
+     *
+     * @param
+     *
+     * */
+
+    public Map<Integer, boolean[]> loadAll() throws SQLException {
+        String selectTableSQL = "SELECT * from WEEK";
+        System.out.println(selectTableSQL);
+        //statement.execute(selectTableSQL);
+        ResultSet rs = dbInterface.runStatement(selectTableSQL);
+        Map<Integer, boolean[]> out = new HashMap<>();
+        if (rs.next() == false) {
+            System.out.println("ResultSet in empty in Java");
+        } else {
+            do {
+                int id = rs.getInt("ID");
+                boolean[] schedule = new boolean[7];
+                for(int i = 0; i < 7; i++){
+                    schedule[i] = rs.getBoolean(Day.fromIndex(i).name());
+                }
+                out.put(id, schedule);
+            } while(rs.next());
+        }
+        return out;
+    }
 }
