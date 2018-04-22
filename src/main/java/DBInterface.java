@@ -16,7 +16,7 @@ public class DBInterface {
                 "FRIDAY BOOLEAN, " +
                 "SATRUDAY BOOLEAN, " +
                 "SUNDAY BOOLEAN " + ")");
-        System.out.print("Table \"Days\" is created!");
+        System.out.print("Table \"WEEK\" is created!");
     }
     private DBInterface(DBInterface other) {}
 
