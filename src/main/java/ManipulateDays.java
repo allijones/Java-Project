@@ -14,16 +14,16 @@ public class ManipulateDays extends DBManipulator {
      *
      * */
     public void save(Employee p) throws SQLException {
-    String insertTableSQL = "INSERT INTO WEEK" + "(ID, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATRUDAY, SUNDAY)" +
+    String insertTableSQL = "INSERT INTO WEEK" + "(ID, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)" +
                 "VALUES" + "("
                 + p.getId() + ", "
-                + p.getSchedule()[Day.Monday.getVal()] + ", "
-                + p.getSchedule()[Day.Tuesday.getVal()] + ", "
-                + p.getSchedule()[Day.Wednesday.getVal()] + ", "
-                + p.getSchedule()[Day.Thursday.getVal()] + ", "
-                + p.getSchedule()[Day.Friday.getVal()] + ", "
-                + p.getSchedule()[Day.Saturday.getVal()] + ", "
-                + p.getSchedule()[Day.Sunday.getVal()]
+                + p.getSchedule()[Day.MONDAY.getVal()] + ", "
+                + p.getSchedule()[Day.TUESDAY.getVal()] + ", "
+                + p.getSchedule()[Day.WEDNESDAY.getVal()] + ", "
+                + p.getSchedule()[Day.THURSDAY.getVal()] + ", "
+                + p.getSchedule()[Day.FRIDAY.getVal()] + ", "
+                + p.getSchedule()[Day.SATURDAY.getVal()] + ", "
+                + p.getSchedule()[Day.SUNDAY.getVal()]
                 + ")";
         System.out.println(insertTableSQL);
         dbInterface.runStatement(insertTableSQL);
@@ -62,5 +62,34 @@ public class ManipulateDays extends DBManipulator {
         // execute delete SQL stetement
         dbInterface.runStatement(deleteTableSQL);
         System.out.println("All records are deleted from table!");
+    }
+
+
+    /**
+     * loadAll: loads all entries in database
+     *
+     * @param
+     *
+     * */
+
+    public Map<Integer, boolean[]> loadAll() throws SQLException {
+        String selectTableSQL = "SELECT * from WEEK";
+        System.out.println(selectTableSQL);
+        //statement.execute(selectTableSQL);
+        ResultSet rs = dbInterface.runStatement(selectTableSQL);
+        Map<Integer, boolean[]> out = new HashMap<>();
+        if (rs.next() == false) {
+            System.out.println("ResultSet in empty in Java");
+        } else {
+            do {
+                int id = rs.getInt("ID");
+                boolean[] schedule = new boolean[7];
+                for(int i = 0; i < 7; i++){
+                    schedule[i] = rs.getBoolean(Day.fromIndex(i).name());
+                }
+                out.put(id, schedule);
+            } while(rs.next());
+        }
+        return out;
     }
 }

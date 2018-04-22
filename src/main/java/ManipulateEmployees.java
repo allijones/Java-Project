@@ -20,7 +20,7 @@ public class ManipulateEmployees extends DBManipulator{
             String insertTableSQL = "INSERT INTO EMPLOYEES" + "(NAME)" + "VALUES" +
                     "("  + "'"+p.getName()+"'" +")";
             System.out.println(insertTableSQL);
-            dbInterface.runStatement(insertTableSQL);
+            p.setId(dbInterface.runStatementGetID(insertTableSQL));
             System.out.println("Record is inserted into table!");
         }
         //otherwise, update that ID number
@@ -79,6 +79,31 @@ public class ManipulateEmployees extends DBManipulator{
                 //System.out.println("age: " + age);
             } while(rs.next());
         }
+    }
+
+    /**
+     * loadAll: loads all entries in database
+     *
+     * @param
+     *
+     * */
+
+    public Map<Integer, String> loadAll() throws SQLException {
+        String selectTableSQL = "SELECT * from EMPLOYEES";
+        System.out.println(selectTableSQL);
+        //statement.execute(selectTableSQL);
+        ResultSet rs = dbInterface.runStatement(selectTableSQL);
+        Map<Integer, String> out = new HashMap<>();
+        if (rs.next() == false) {
+            System.out.println("ResultSet in empty in Java");
+        } else {
+            do {
+                int id = rs.getInt("ID");
+                String name = rs.getString("NAME");
+                out.put(id, name);
+            } while(rs.next());
+        }
+        return out;
     }
 
 

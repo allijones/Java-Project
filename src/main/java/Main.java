@@ -6,6 +6,7 @@ import org.apache.derby.jdbc.EmbeddedDriver;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -40,7 +41,20 @@ public class Main {
         Scanner reader = new Scanner(System.in);
 
         ActionMenu saveMenu = new ActionMenu();
-        saveMenu.add("Save to SQL", (ActionMenu parent) -> {
+        saveMenu.add("Append to SQL", (ActionMenu parent) -> {
+            try {
+                for (int i = 0; i < employees.size(); i++) {
+                    filter.save(employees.get(i));
+                }
+                for (int i = 0; i < employees.size(); i++) {
+                    available.save(employees.get(i));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            parent.stop();
+        });
+        saveMenu.add("Replace SQL", (ActionMenu parent) -> {
             try {
                 filter.delete();
                 available.delete();
@@ -57,9 +71,11 @@ public class Main {
         });
         saveMenu.add("Save to CSV", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         saveMenu.add("Save to XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         saveMenu.add("Cancel", ActionMenu::stop);
 
@@ -79,36 +95,72 @@ public class Main {
             parent.stop();
         });
         loadMenu.add("Load from SQL", (ActionMenu parent) -> {
-            System.out.println("Error: function not implemented");
+            try {
+                Map<Integer, String> names = filter.loadAll();
+                Map<Integer, boolean[]> schedules = available.loadAll();
+                for (Integer id : names.keySet()) {
+                    employees.add(EmployeeFactory.create(names.get(id), schedules.get(id), id));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            parent.stop();
         });
         loadMenu.add("Load from CSV", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         loadMenu.add("Load from XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         loadMenu.add("Cancel", ActionMenu::stop);
 
 
         ActionMenu mainMenu = new ActionMenu();
-        mainMenu.add("Read Schedule", (ActionMenu) -> {
+        mainMenu.add("Read Availability", (ActionMenu) -> {
+            int idLength = 3;
+            int nameLength = 4;
+            for(Employee employee : employees){
+                idLength = Math.max(idLength, (int)Math.log10(employee.getId()));
+                nameLength = Math.max(nameLength, employee.getName().length());
+            }
+            idLength += 1;
+            nameLength += 1;
+            System.out.print(String.format("%1$-" + idLength + "s", "ID"));
+            System.out.print(String.format("%1$-" + nameLength + "s", "Name"));
+            System.out.println("S M T W R F S");
+            for(Employee employee : employees){
+                System.out.print(String.format("%1$-" + idLength + "s", employee.getId()));
+                System.out.print(String.format("%1$-" + nameLength + "s", employee.getName()));
+                for(int i = 0; i < 7; i++){
+                    System.out.print(employee.getSchedule()[i]?"X ":"  ");
+                }
+                System.out.println();
+            }
+        });
+        mainMenu.add("Modify Availability", (ActionMenu) -> {
+            System.out.println("Error: function not implemented");
+        });
+        mainMenu.add("Save Availability", (ActionMenu) -> {
+            saveMenu.run(reader);
+        });
+        mainMenu.add("Load Availability", (ActionMenu) -> {
+            loadMenu.run(reader);
+        });
+        mainMenu.add("Clear Availability", (ActionMenu) -> {
+            /*try {
+                filter.delete();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }*/
+            employees.clear();
+        });
+        mainMenu.add("Build Schedule", (ActionMenu) -> {
             System.out.println("Error: function not implemented");
         });
         mainMenu.add("Modify Schedule", (ActionMenu) -> {
             System.out.println("Error: function not implemented");
-        });
-        mainMenu.add("Save Schedule", (ActionMenu) -> {
-            saveMenu.run(reader);
-        });
-        mainMenu.add("Load Schedule", (ActionMenu) -> {
-            loadMenu.run(reader);
-        });
-        mainMenu.add("Clear Schedule", (ActionMenu) -> {
-            try {
-                filter.delete();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         });
         mainMenu.add("Exit", (ActionMenu parent) -> {
             parent.stop();
@@ -125,7 +177,7 @@ public class Main {
         if(n == 1){
             ManipulateDays available = new ManipulateDays(DBInterface.create());
             ManipulateEmployees filter = new ManipulateEmployees(DBInterface.create());
-            ArrayList<Integer> avalibleList = available.availableDay(Day.Monday);
+            ArrayList<Integer> avalibleList = available.availableDay(Day.MONDAY);
             for(int i = 0; i < avalibleList.size(); i++){
                 filter.findById(avalibleList.get(i));
             }
