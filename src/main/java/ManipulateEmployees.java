@@ -1,15 +1,9 @@
 import java.sql.*;
 import java.util.*;
 
-public class ManipulateEmployees {
-    private DBInterface dbInterface;
-
+public class ManipulateEmployees extends DBManipulator{
     public ManipulateEmployees(DBInterface dbInterface) {
-        this.dbInterface = dbInterface;
-    }
-
-    public void setDBInterface(DBInterface dbInterface) {
-        this.dbInterface = dbInterface;
+        super(dbInterface);
     }
 
     /**
@@ -79,7 +73,7 @@ public class ManipulateEmployees {
             do {
                 int id = rs.getInt("ID");
                 String name = rs.getString("NAME");
-                int age = rs.getInt("AGE");
+                //int age = rs.getInt("AGE");
                 //System.out.println("id: " + id);
                 System.out.println("name : " + name);
                 //System.out.println("age: " + age);

@@ -83,7 +83,7 @@ public class DBInterface {
             statement = connection.createStatement();
             statement.execute(toRun);
             out = statement.getResultSet();
-            statement.close();
+            //statement.close();
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
