@@ -57,9 +57,11 @@ public class Main {
         });
         saveMenu.add("Save to CSV", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         saveMenu.add("Save to XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         saveMenu.add("Cancel", ActionMenu::stop);
 
@@ -80,12 +82,15 @@ public class Main {
         });
         loadMenu.add("Load from SQL", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         loadMenu.add("Load from CSV", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         loadMenu.add("Load from XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
+            parent.stop();
         });
         loadMenu.add("Cancel", ActionMenu::stop);
 
