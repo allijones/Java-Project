@@ -177,7 +177,7 @@ public class Main {
         if(n == 1){
             ManipulateDays available = new ManipulateDays(DBInterface.create());
             ManipulateEmployees filter = new ManipulateEmployees(DBInterface.create());
-            ArrayList<Integer> avalibleList = available.availableDay(Day.Monday);
+            ArrayList<Integer> avalibleList = available.availableDay(Day.MONDAY);
             for(int i = 0; i < avalibleList.size(); i++){
                 filter.findById(avalibleList.get(i));
             }

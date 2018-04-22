@@ -17,13 +17,13 @@ public class ManipulateDays extends DBManipulator {
     String insertTableSQL = "INSERT INTO WEEK" + "(ID, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATRUDAY, SUNDAY)" +
                 "VALUES" + "("
                 + p.getId() + ", "
-                + p.getSchedule()[Day.Monday.getVal()] + ", "
-                + p.getSchedule()[Day.Tuesday.getVal()] + ", "
-                + p.getSchedule()[Day.Wednesday.getVal()] + ", "
-                + p.getSchedule()[Day.Thursday.getVal()] + ", "
-                + p.getSchedule()[Day.Friday.getVal()] + ", "
-                + p.getSchedule()[Day.Saturday.getVal()] + ", "
-                + p.getSchedule()[Day.Sunday.getVal()]
+                + p.getSchedule()[Day.MONDAY.getVal()] + ", "
+                + p.getSchedule()[Day.TUESDAY.getVal()] + ", "
+                + p.getSchedule()[Day.WEDNESDAY.getVal()] + ", "
+                + p.getSchedule()[Day.THURSDAY.getVal()] + ", "
+                + p.getSchedule()[Day.FRIDAY.getVal()] + ", "
+                + p.getSchedule()[Day.SATURDAY.getVal()] + ", "
+                + p.getSchedule()[Day.SUNDAY.getVal()]
                 + ")";
         System.out.println(insertTableSQL);
         dbInterface.runStatement(insertTableSQL);

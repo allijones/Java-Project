@@ -1,5 +1,5 @@
 public enum Day {
-    Sunday(0), Monday(1), Tuesday(2), Wednesday(3), Thursday(4), Friday(5), Saturday(6);
+    SUNDAY(0), MONDAY(1), TUESDAY(2), WEDNESDAY(3), THURSDAY(4), FRIDAY(5), SATURDAY(6);
 
     private int dayVal;
 
@@ -14,19 +14,19 @@ public enum Day {
     public static Day fromIndex(int i){
         switch(i){
             case 0:
-                return Sunday;
+                return SUNDAY;
             case 1:
-                return Monday;
+                return MONDAY;
             case 2:
-                return Tuesday;
+                return TUESDAY;
             case 3:
-                return Wednesday;
+                return WEDNESDAY;
             case 4:
-                return Thursday;
+                return THURSDAY;
             case 5:
-                return Friday;
+                return FRIDAY;
             case 6:
-                return Saturday;
+                return SATURDAY;
         }
         return null;
     }
