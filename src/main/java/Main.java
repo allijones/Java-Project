@@ -73,10 +73,9 @@ public class Main {
             System.out.println("Error: function not implemented");
             parent.stop();
         });
-        saveMenu.add("Save to XML", (ActionMenu parent) -> {
+        /*saveMenu.add("Save to XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
-            parent.stop();
-        });
+        });*/
         saveMenu.add("Cancel", ActionMenu::stop);
 
 
@@ -110,10 +109,9 @@ public class Main {
             System.out.println("Error: function not implemented");
             parent.stop();
         });
-        loadMenu.add("Load from XML", (ActionMenu parent) -> {
+        /*loadMenu.add("Load from XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
-            parent.stop();
-        });
+        });*/
 
 
         ActionMenu mainMenu = new ActionMenu();
@@ -138,9 +136,9 @@ public class Main {
                 System.out.println();
             }
         });
-        mainMenu.add("Modify Availability", (ActionMenu) -> {
+        /*mainMenu.add("Modify Availability", (ActionMenu) -> {
             System.out.println("Error: function not implemented");
-        });
+        });*/
         mainMenu.add("Save Availability", (ActionMenu) -> {
             saveMenu.run(reader);
         });
