@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 import javafx.util.Pair;
@@ -70,7 +74,24 @@ public class Main {
             parent.stop();
         });
         saveMenu.add("Save to CSV", (ActionMenu parent) -> {
-            System.out.println("Error: function not implemented");
+            PrintWriter writer = null;
+            try {
+                System.out.print("Enter a name for the CSV file: ");
+                String filename = reader.next();
+                writer = new PrintWriter(filename, "UTF-8");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            for (Employee employee : employees) {
+                writer.print(employee.getId() + "," + employee.getName() + ",");
+                for(Boolean day : employee.getSchedule()){
+                    writer.print(day?"X":"O");
+                }
+                writer.println();
+            }
+            writer.close();
             parent.stop();
         });
         /*saveMenu.add("Save to XML", (ActionMenu parent) -> {
@@ -106,8 +127,24 @@ public class Main {
             parent.stop();
         });
         loadMenu.add("Load from CSV", (ActionMenu parent) -> {
-            System.out.println("Error: function not implemented");
-            parent.stop();
+            try {
+                System.out.print("Enter the CSV file's name: ");
+                String filename = reader.next();
+                Scanner csvIn = new Scanner(new File(filename));
+
+                while(csvIn.hasNext()){
+                    String[] data = csvIn.nextLine().split(",");
+                    boolean[] schedule = new boolean[7];
+                    for(int i = 0; i < 7; i++){
+                        schedule[i] = data[2].charAt(i) == 'X';
+                    }
+                    employees.add(EmployeeFactory.create(data[1], schedule, Integer.parseInt(data[0])));
+                }
+
+                parent.stop();
+            } catch (FileNotFoundException e) {
+                System.out.println("Invalid File");
+            }
         });
         /*loadMenu.add("Load from XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
