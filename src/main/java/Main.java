@@ -216,7 +216,7 @@ public class Main {
                 for(int i = 0; i < 6; i++){
                     lines[i] = csvIn.nextLine();
                 }
-                List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 1);
+                List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 0);
                 System.out.print("\nEnter a name for the CSV file: ");
                 String filename = reader.next();
                 PrintWriter writer = null;
@@ -275,9 +275,9 @@ public class Main {
         */
     }
 
-    private static List<Set<Employee>> buildSchedule(Scanner reader, ArrayList<Employee> employees, int i) {
+    private static List<Set<Employee>> buildSchedule(Scanner reader, ArrayList<Employee> employees, int minWorking) {
         List<Set<Employee>> scheduled = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
+        for (int d = 0; d < 7; d++) {
             scheduled.add(new HashSet<>());
         }
         AtomicBoolean scheduling = new AtomicBoolean(true);
@@ -307,7 +307,7 @@ public class Main {
                     parent.stop();
                 });
             }
-            if (scheduled.get(day.get()).size() >= 3 || scheduled.get(day.get()).size() == countAvalible) {
+            if (scheduled.get(day.get()).size() >= minWorking || scheduled.get(day.get()).size() == countAvalible) {
                 if (day.get() < 6) {
                     selection.add("Next", (ActionMenu parent) -> {
                         day.getAndIncrement();
