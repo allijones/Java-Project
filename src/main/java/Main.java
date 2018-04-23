@@ -1,14 +1,12 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
-import javafx.util.Pair;
-import org.apache.derby.jdbc.EmbeddedDriver;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] argv) throws SQLException {
@@ -70,13 +68,29 @@ public class Main {
             parent.stop();
         });
         saveMenu.add("Save to CSV", (ActionMenu parent) -> {
-            System.out.println("Error: function not implemented");
+            PrintWriter writer = null;
+            try {
+                System.out.print("Enter a name for the CSV file: ");
+                String filename = reader.next();
+                writer = new PrintWriter(filename, "UTF-8");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            for (Employee employee : employees) {
+                writer.print(employee.getId() + "," + employee.getName() + ",");
+                for (Boolean day : employee.getSchedule()) {
+                    writer.print(day ? "X" : "O");
+                }
+                writer.println();
+            }
+            writer.close();
             parent.stop();
         });
-        saveMenu.add("Save to XML", (ActionMenu parent) -> {
+        /*saveMenu.add("Save to XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
-            parent.stop();
-        });
+        });*/
         saveMenu.add("Cancel", ActionMenu::stop);
 
 
@@ -107,22 +121,36 @@ public class Main {
             parent.stop();
         });
         loadMenu.add("Load from CSV", (ActionMenu parent) -> {
-            System.out.println("Error: function not implemented");
-            parent.stop();
+            try {
+                System.out.print("Enter the CSV file's name: ");
+                String filename = reader.next();
+                Scanner csvIn = new Scanner(new File(filename));
+
+                while (csvIn.hasNext()) {
+                    String[] data = csvIn.nextLine().split(",");
+                    boolean[] schedule = new boolean[7];
+                    for (int i = 0; i < 7; i++) {
+                        schedule[i] = data[2].charAt(i) == 'X';
+                    }
+                    employees.add(EmployeeFactory.create(data[1], schedule, Integer.parseInt(data[0])));
+                }
+
+                parent.stop();
+            } catch (FileNotFoundException e) {
+                System.out.println("Invalid File");
+            }
         });
-        loadMenu.add("Load from XML", (ActionMenu parent) -> {
+        /*loadMenu.add("Load from XML", (ActionMenu parent) -> {
             System.out.println("Error: function not implemented");
-            parent.stop();
-        });
-        loadMenu.add("Cancel", ActionMenu::stop);
+        });*/
 
 
         ActionMenu mainMenu = new ActionMenu();
-        mainMenu.add("Read Availability", (ActionMenu) -> {
+        mainMenu.add("Display Data", (ActionMenu) -> {
             int idLength = 3;
             int nameLength = 4;
-            for(Employee employee : employees){
-                idLength = Math.max(idLength, (int)Math.log10(employee.getId()));
+            for (Employee employee : employees) {
+                idLength = Math.max(idLength, (int) Math.log10(employee.getId()));
                 nameLength = Math.max(nameLength, employee.getName().length());
             }
             idLength += 1;
@@ -130,25 +158,25 @@ public class Main {
             System.out.print(String.format("%1$-" + idLength + "s", "ID"));
             System.out.print(String.format("%1$-" + nameLength + "s", "Name"));
             System.out.println("S M T W R F S");
-            for(Employee employee : employees){
+            for (Employee employee : employees) {
                 System.out.print(String.format("%1$-" + idLength + "s", employee.getId()));
                 System.out.print(String.format("%1$-" + nameLength + "s", employee.getName()));
-                for(int i = 0; i < 7; i++){
-                    System.out.print(employee.getSchedule()[i]?"X ":"  ");
+                for (int i = 0; i < 7; i++) {
+                    System.out.print(employee.getSchedule()[i] ? "X " : "  ");
                 }
                 System.out.println();
             }
         });
-        mainMenu.add("Modify Availability", (ActionMenu) -> {
+        /*mainMenu.add("Modify Availability", (ActionMenu) -> {
             System.out.println("Error: function not implemented");
-        });
-        mainMenu.add("Save Availability", (ActionMenu) -> {
+        });*/
+        mainMenu.add("Save Data", (ActionMenu) -> {
             saveMenu.run(reader);
         });
-        mainMenu.add("Load Availability", (ActionMenu) -> {
+        mainMenu.add("Load Data", (ActionMenu) -> {
             loadMenu.run(reader);
         });
-        mainMenu.add("Clear Availability", (ActionMenu) -> {
+        mainMenu.add("Clear Loaded Data", (ActionMenu) -> {
             /*try {
                 filter.delete();
             } catch (SQLException e) {
@@ -157,16 +185,69 @@ public class Main {
             employees.clear();
         });
         mainMenu.add("Build Schedule", (ActionMenu) -> {
-            System.out.println("Error: function not implemented");
+            List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 3);
+            System.out.print("\nEnter a name for the CSV file: ");
+            String filename = reader.next();
+            PrintWriter writer = null;
+            while (writer == null) {
+                try {
+                    writer = new PrintWriter(filename, "UTF-8");
+                } catch (FileNotFoundException e) {
+                    System.out.println("Invalid path, try again: ");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            for (int i = 0; i < 7; i++) {
+                writer.print(Day.fromIndex(i).name());
+                for (Employee employee : scheduled.get(i)) {
+                    writer.print("," + employee.getId() + "," + employee.getName());
+                }
+                writer.println();
+            }
+            writer.close();
         });
-        mainMenu.add("Modify Schedule", (ActionMenu) -> {
-            System.out.println("Error: function not implemented");
+        mainMenu.add("Add to Schedule", (ActionMenu) -> {
+            System.out.print("Path to source CSV file: ");
+            String infilename = reader.next();
+            try {
+                Scanner csvIn = new Scanner(new File(infilename));
+                String[] lines = new String[7];
+                for(int i = 0; i < 6; i++){
+                    lines[i] = csvIn.nextLine();
+                }
+                List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 0);
+                System.out.print("\nEnter a name for the CSV file: ");
+                String filename = reader.next();
+                PrintWriter writer = null;
+                while (writer == null) {
+                    try {
+                        writer = new PrintWriter(filename, "UTF-8");
+                    } catch (FileNotFoundException e) {
+                        System.out.println("Invalid path, try again: ");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                for(int i = 0; i < 6; i++){
+                    writer.print(lines[i]);
+                    for (Employee employee : scheduled.get(i)) {
+                        writer.print("," + employee.getId() + "," + employee.getName());
+                    }
+                    writer.println();
+                }
+                writer.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("Invalid path.");
+            }
         });
         mainMenu.add("Exit", (ActionMenu parent) -> {
             parent.stop();
             System.out.println("\nThank you for using our software.");
         });
 
+        loadMenu.run(reader);
+        loadMenu.add("Cancel", ActionMenu::stop);
         mainMenu.run(reader);
 
 
@@ -192,5 +273,56 @@ public class Main {
 
         }
         */
+    }
+
+    private static List<Set<Employee>> buildSchedule(Scanner reader, ArrayList<Employee> employees, int minWorking) {
+        List<Set<Employee>> scheduled = new ArrayList<>();
+        for (int d = 0; d < 7; d++) {
+            scheduled.add(new HashSet<>());
+        }
+        AtomicBoolean scheduling = new AtomicBoolean(true);
+        AtomicInteger day = new AtomicInteger();
+        while (scheduling.get()) {
+            int countAvalible = 0;
+            ActionMenu selection = new ActionMenu();
+            for (Employee employee : employees) {
+                if (employee.isAvalible(Day.fromIndex(day.get()))) {
+                    countAvalible++;
+                    if (scheduled.get(day.get()).contains(employee)) {
+                        selection.add("Unschedule #" + employee.getId() + " " + employee.getName(), (ActionMenu parent) -> {
+                            scheduled.get(day.get()).remove(employee);
+                            parent.stop();
+                        });
+                    } else {
+                        selection.add("Schedule #" + employee.getId() + " " + employee.getName(), (ActionMenu parent) -> {
+                            scheduled.get(day.get()).add(employee);
+                            parent.stop();
+                        });
+                    }
+                }
+            }
+            if (day.get() != 0) {
+                selection.add("Go Back", (ActionMenu parent) -> {
+                    day.getAndDecrement();
+                    parent.stop();
+                });
+            }
+            if (scheduled.get(day.get()).size() >= minWorking || scheduled.get(day.get()).size() == countAvalible) {
+                if (day.get() < 6) {
+                    selection.add("Next", (ActionMenu parent) -> {
+                        day.getAndIncrement();
+                        parent.stop();
+                    });
+                } else {
+                    selection.add("Finish", (ActionMenu parent) -> {
+                        scheduling.set(false);
+                        parent.stop();
+                    });
+                }
+            }
+            System.out.print("\n" + Day.fromIndex(day.get()).name());
+            selection.run(reader);
+        }
+        return scheduled;
     }
 }
