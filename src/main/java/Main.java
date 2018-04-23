@@ -14,8 +14,9 @@ public class Main {
         //EmployeeGateway manip = new EmployeeGateway();
         ArrayList<Employee> employees = new ArrayList<Employee>();
 
-        ManipulateEmployees filter = new ManipulateEmployees(DBInterface.create());
-        ManipulateDays available = new ManipulateDays(DBInterface.create());
+        DBInterface dbInterface = DBInterface.create("database");
+        ManipulateEmployees filter = new ManipulateEmployees(dbInterface);
+        ManipulateDays available = new ManipulateDays(dbInterface);
 
         //clear the database before running this test
         //filter.delete();
@@ -250,6 +251,7 @@ public class Main {
         loadMenu.add("Cancel", ActionMenu::stop);
         mainMenu.run(reader, System.out);
 
+        dbInterface.disconnect();
 
         /*
         System.out.println("Enter '1' to create a new schedule, enter '2' to update an existing schedule.");

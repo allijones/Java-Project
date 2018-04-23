@@ -1,7 +1,7 @@
 import java.sql.*;
 
 public class DBInterface {
-    private DBInterface() throws SQLException {
+    private DBInterface(String database) throws SQLException {
         connection = createConnection();
         runStatement("CREATE TABLE EMPLOYEES(" +
                 "ID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), " +
@@ -21,12 +21,12 @@ public class DBInterface {
     private DBInterface(DBInterface other) {}
 
     private static DBInterface instance = null;
-    public static DBInterface create(){
+    public static DBInterface create(String database){
         if(instance == null){
             synchronized (DBInterface.class){
                 if(instance == null){
                     try {
-                        instance = new DBInterface();
+                        instance = new DBInterface(database);
                     } catch (SQLException e) {
                         e.printStackTrace();
                         instance = null;
