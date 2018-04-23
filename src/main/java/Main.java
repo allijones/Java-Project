@@ -152,7 +152,7 @@ public class Main {
 
 
         ActionMenu mainMenu = new ActionMenu();
-        mainMenu.add("Read Availability", (ActionMenu) -> {
+        mainMenu.add("Display Data", (ActionMenu) -> {
             int idLength = 3;
             int nameLength = 4;
             for(Employee employee : employees){
@@ -176,13 +176,13 @@ public class Main {
         /*mainMenu.add("Modify Availability", (ActionMenu) -> {
             System.out.println("Error: function not implemented");
         });*/
-        mainMenu.add("Save Availability", (ActionMenu) -> {
+        mainMenu.add("Save Data", (ActionMenu) -> {
             saveMenu.run(reader);
         });
-        mainMenu.add("Load Availability", (ActionMenu) -> {
+        mainMenu.add("Load Data", (ActionMenu) -> {
             loadMenu.run(reader);
         });
-        mainMenu.add("Clear Availability", (ActionMenu) -> {
+        mainMenu.add("Clear Loaded Data", (ActionMenu) -> {
             /*try {
                 filter.delete();
             } catch (SQLException e) {
