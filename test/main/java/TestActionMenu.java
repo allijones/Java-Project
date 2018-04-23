@@ -2,7 +2,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,7 +23,7 @@ public class TestActionMenu {
             order.add(4);
         });
         testMenu.add("Cancel Action", ActionMenu::stop);
-        testMenu.run(new Scanner("4 2 3 1 4 4 5"));
+        testMenu.run(new Scanner("4 2 3 1 4 4 5"), new NullPrintStream());
         int[] verify = {4, 2, 3, 1, 4, 4};
         Assertions.assertArrayEquals(order.stream().mapToInt(i->i).toArray(), verify);
     }
