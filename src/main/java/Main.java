@@ -114,7 +114,6 @@ public class Main {
             System.out.println("Error: function not implemented");
             parent.stop();
         });
-        loadMenu.add("Cancel", ActionMenu::stop);
 
 
         ActionMenu mainMenu = new ActionMenu();
@@ -167,6 +166,8 @@ public class Main {
             System.out.println("\nThank you for using our software.");
         });
 
+        loadMenu.run(reader);
+        loadMenu.add("Cancel", ActionMenu::stop);
         mainMenu.run(reader);
 
 
