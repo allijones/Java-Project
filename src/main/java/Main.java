@@ -14,8 +14,9 @@ public class Main {
         //EmployeeGateway manip = new EmployeeGateway();
         ArrayList<Employee> employees = new ArrayList<Employee>();
 
-        ManipulateEmployees filter = new ManipulateEmployees(DBInterface.create());
-        ManipulateDays available = new ManipulateDays(DBInterface.create());
+        DBInterface dbInterface = DBInterface.create("database");
+        ManipulateEmployees filter = new ManipulateEmployees(dbInterface);
+        ManipulateDays available = new ManipulateDays(dbInterface);
 
         //clear the database before running this test
         //filter.delete();
@@ -171,10 +172,10 @@ public class Main {
             System.out.println("Error: function not implemented");
         });*/
         mainMenu.add("Save Data", (ActionMenu) -> {
-            saveMenu.run(reader);
+            saveMenu.run(reader, System.out);
         });
         mainMenu.add("Load Data", (ActionMenu) -> {
-            loadMenu.run(reader);
+            loadMenu.run(reader, System.out);
         });
         mainMenu.add("Clear Loaded Data", (ActionMenu) -> {
             /*try {
@@ -246,10 +247,11 @@ public class Main {
             System.out.println("\nThank you for using our software.");
         });
 
-        loadMenu.run(reader);
+        loadMenu.run(reader, System.out);
         loadMenu.add("Cancel", ActionMenu::stop);
-        mainMenu.run(reader);
+        mainMenu.run(reader, System.out);
 
+        dbInterface.disconnect();
 
         /*
         System.out.println("Enter '1' to create a new schedule, enter '2' to update an existing schedule.");
@@ -321,7 +323,7 @@ public class Main {
                 }
             }
             System.out.print("\n" + Day.fromIndex(day.get()).name());
-            selection.run(reader);
+            selection.run(reader, System.out);
         }
         return scheduled;
     }

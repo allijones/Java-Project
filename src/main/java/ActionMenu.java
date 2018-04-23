@@ -1,4 +1,5 @@
-import javax.swing.*;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,12 +14,12 @@ public class ActionMenu {
     private List<String> descriptions = new ArrayList<String>();
     private AtomicReference<Boolean> running = new AtomicReference<>(false);
 
-    public void run(Scanner in){
+    public void run(Scanner in, PrintStream out){
         running.set(true);
-        System.out.println();
+        out.println();
         while(running.get()){
             for(int i = 0; i < actions.size(); i++){
-                System.out.println((i + 1) + ". " + descriptions.get(i));
+                out.println((i + 1) + ". " + descriptions.get(i));
             }
             int n = in.nextInt() - 1;
             actions.get(n).run(this);
