@@ -10,32 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] argv) throws SQLException {
-        //DBInterface database = DBInterface.create();
-        //EmployeeGateway manip = new EmployeeGateway();
         ArrayList<Employee> employees = new ArrayList<Employee>();
 
         DBInterface dbInterface = DBInterface.create("database");
         ManipulateEmployees filter = new ManipulateEmployees(dbInterface);
         ManipulateDays available = new ManipulateDays(dbInterface);
-
-        //clear the database before running this test
-        //filter.delete();
-        //available.delete();
-
-        //save the test employees to the database
-        //for(int i = 0; i < employees.size(); i++){
-        //    filter.save(employees.get(i));
-        //}
-        /*filter.findAll();
-        for(int i = 0; i < filter.idList.size(); i++){
-            System.out.println(filter.idList.get(i));
-            employees.get(i).setId(filter.idList.get(i));
-            System.out.println(employees.get(i).getId());
-        }
-
-        for(int i = 0; i < employees.size(); i++){
-            available.save(employees.get(i));
-        }*/
 
         Scanner reader = new Scanner(System.in);
 
@@ -89,9 +68,6 @@ public class Main {
             writer.close();
             parent.stop();
         });
-        /*saveMenu.add("Save to XML", (ActionMenu parent) -> {
-            System.out.println("Error: function not implemented");
-        });*/
         saveMenu.add("Cancel", ActionMenu::stop);
 
 
@@ -141,10 +117,6 @@ public class Main {
                 System.out.println("Invalid File");
             }
         });
-        /*loadMenu.add("Load from XML", (ActionMenu parent) -> {
-            System.out.println("Error: function not implemented");
-        });*/
-
 
         ActionMenu mainMenu = new ActionMenu();
         mainMenu.add("Display Data", (ActionMenu) -> {
@@ -168,9 +140,6 @@ public class Main {
                 System.out.println();
             }
         });
-        /*mainMenu.add("Modify Availability", (ActionMenu) -> {
-            System.out.println("Error: function not implemented");
-        });*/
         mainMenu.add("Save Data", (ActionMenu) -> {
             saveMenu.run(reader, System.out);
         });
@@ -178,11 +147,6 @@ public class Main {
             loadMenu.run(reader, System.out);
         });
         mainMenu.add("Clear Loaded Data", (ActionMenu) -> {
-            /*try {
-                filter.delete();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }*/
             employees.clear();
         });
         mainMenu.add("Build Schedule", (ActionMenu) -> {
@@ -252,29 +216,6 @@ public class Main {
         mainMenu.run(reader, System.out);
 
         dbInterface.disconnect();
-
-        /*
-        System.out.println("Enter '1' to create a new schedule, enter '2' to update an existing schedule.");
-        int n = reader.nextInt();
-
-        if(n == 1){
-            ManipulateDays available = new ManipulateDays(DBInterface.create());
-            ManipulateEmployees filter = new ManipulateEmployees(DBInterface.create());
-            ArrayList<Integer> avalibleList = available.availableDay(Day.MONDAY);
-            for(int i = 0; i < avalibleList.size(); i++){
-                filter.findById(avalibleList.get(i));
-            }
-            System.out.println("Please enter 3 ID numbers to work on Monday: ");
-            int a = reader.nextInt();
-            int b = reader.nextInt();
-            int c = reader.nextInt();
-
-            //send names out to the CSV file
-        }
-        else{
-
-        }
-        */
     }
 
     private static List<Set<Employee>> buildSchedule(Scanner reader, ArrayList<Employee> employees, int minWorking) {
