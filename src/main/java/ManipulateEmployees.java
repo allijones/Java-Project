@@ -61,8 +61,8 @@ public class ManipulateEmployees extends DBManipulator{
      *
      * */
 
-    public ArrayList<Integer> idList = new ArrayList<Integer>();
-    public void findAll() throws SQLException {
+    public ArrayList<Integer> findAll() throws SQLException {
+        ArrayList<Integer> idList = new ArrayList<Integer>();
         String selectTableSQL = "SELECT * from EMPLOYEES";
         System.out.println(selectTableSQL);
         //statement.execute(selectTableSQL);
@@ -79,6 +79,7 @@ public class ManipulateEmployees extends DBManipulator{
                 //System.out.println("age: " + age);
             } while(rs.next());
         }
+        return idList;
     }
 
     /**
