@@ -1,6 +1,11 @@
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Uses a DBInterface to manage a table of available days
+ *
+ * @author  Alli Jones
+ */
 public class ManipulateDays extends DBManipulator {
     public ManipulateDays(DBInterface dbInterface) {
         super(dbInterface);

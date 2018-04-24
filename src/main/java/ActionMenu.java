@@ -9,6 +9,11 @@ interface action {
     void run(ActionMenu parent);
 }
 
+/**
+ * A manager for a menu dynamically generated with lambdas.
+ *
+ * @author  Aidan Edwards
+ */
 public class ActionMenu {
     private List<action> actions = new ArrayList<action>();
     private List<String> descriptions = new ArrayList<String>();

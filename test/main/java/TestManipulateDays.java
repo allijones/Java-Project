@@ -5,6 +5,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests ManipulateDays
+ *
+ * @author  Aidan Edwards
+ */
 class TestManipulateDays {
     static DBInterface dbInterface;
     static ManipulateDays mDays;

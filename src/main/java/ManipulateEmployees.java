@@ -1,6 +1,11 @@
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Uses a DBInterface to manage a table of employees
+ *
+ * @author  Alli Jones
+ */
 public class ManipulateEmployees extends DBManipulator{
     public ManipulateEmployees(DBInterface dbInterface) {
         super(dbInterface);

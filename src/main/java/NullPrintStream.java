@@ -3,7 +3,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-// https://stackoverflow.com/a/18804033/1526048
+/**
+ * A custom input stream that does nothing.
+ *
+ * @author  "Vladimir" on StackOverflow
+ * @source  https://stackoverflow.com/a/18804033/1526048
+ */
 public class NullPrintStream extends PrintStream {
 
     public NullPrintStream() {

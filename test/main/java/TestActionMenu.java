@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Tests ActionMenu
+ *
+ * @author  Aidan Edwards
+ */
 public class TestActionMenu {
     private static List<Integer> order;
     private static ActionMenu testMenu;

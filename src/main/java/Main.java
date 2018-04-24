@@ -8,6 +8,12 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * A program that can load employee schedule data, then save it in other formats
+ *     and build a work schedule out of it.
+ *
+ * @author  Aidan Edwards
+ */
 public class Main {
     public static void main(String[] argv) throws SQLException {
         ArrayList<Employee> employees = new ArrayList<Employee>();

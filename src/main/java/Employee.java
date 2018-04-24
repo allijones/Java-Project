@@ -1,5 +1,10 @@
 import java.util.List;
 
+/**
+ * Represents an Employee and the days they are avalible.
+ *
+ * @author  Alli Jones
+ */
 public class Employee {
     private Integer id = 0;
     private String name;

@@ -1,5 +1,10 @@
 import java.sql.*;
 
+/**
+ * An interface between an SQL database and the Java program.
+ *
+ * @author  Aidan Edwards
+ */
 public class DBInterface {
     private DBInterface(String database) throws SQLException {
         connection = createConnection(database);

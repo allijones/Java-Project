@@ -4,6 +4,11 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Map;
 
+/**
+ * Tests ManipulateEmployees
+ *
+ * @author  Aidan Edwards
+ */
 class TestManipulateEmployees {
     static DBInterface dbInterface;
     static ManipulateEmployees mEmployees;

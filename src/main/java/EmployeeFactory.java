@@ -1,3 +1,8 @@
+/**
+ * Factory methods for easily creating Employee objects.
+ *
+ * @author  Aidan Edwards
+ */
 public class EmployeeFactory {
     public static Employee create(String name, boolean[] schedule){
         Employee out = new Employee();
