@@ -1,7 +1,7 @@
 /**
  * An common interface for the two Manipulator classes.
  *
- * @author  Aidan Edwards
+ * @author Alli Jones and Aidan Edwards
  */
 public class DBManipulator {
     protected DBInterface dbInterface;

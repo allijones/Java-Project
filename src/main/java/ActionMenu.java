@@ -1,3 +1,10 @@
+/**
+ * The action interface ...
+ *
+ * @author Aidan Edwards
+ *
+ */
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
