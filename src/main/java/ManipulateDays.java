@@ -39,7 +39,7 @@ public class ManipulateDays extends DBManipulator {
      * */
     public ArrayList<Integer> availableDay(Day day) throws SQLException{
         ArrayList<Integer> out = new ArrayList<Integer>();
-        String selectTableSQL = "SELECT * from WEEK WHERE " + day.getClass() + " = true";
+        String selectTableSQL = "SELECT * from WEEK WHERE " + day + " = true";
         System.out.println(selectTableSQL);
         //statement.execute(selectTableSQL);
         ResultSet rs = dbInterface.runStatement(selectTableSQL);

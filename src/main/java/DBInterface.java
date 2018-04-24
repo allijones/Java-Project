@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DBInterface {
     private DBInterface(String database) throws SQLException {
-        connection = createConnection();
+        connection = createConnection(database);
         runStatement("CREATE TABLE EMPLOYEES(" +
                 "ID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), " +
                 "NAME VARCHAR(20) NOT NULL " + ")");
@@ -48,7 +48,7 @@ public class DBInterface {
         instance = null;
     }
 
-    private Connection createConnection() {
+    private Connection createConnection(String database) {
         System.out.println("-------- Derby JDBC Connection Testing ------------");
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -60,7 +60,7 @@ public class DBInterface {
         System.out.println("Derby JDBC Driver Registered!");
         Connection makeConnection = null;
         try {
-            makeConnection = DriverManager.getConnection("jdbc:derby:database;create=true", "", "");
+            makeConnection = DriverManager.getConnection("jdbc:derby:" + database + ";create=true", "", "");
             //connection = DriverManager.getConnection("jdbc:derby:table1;", "", "");
             if (makeConnection != null) {
                 System.out.println("You made it, take control your database now!");
