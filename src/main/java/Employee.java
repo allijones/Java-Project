@@ -1,3 +1,12 @@
+/**
+ * The Employee class represents an employee in the database.
+ * Each employee has an ID, a name, and a list of days
+ * that they are available to work.
+ *
+ * @author Alli Jones and Aidan Edwards
+ *
+ */
+
 import java.util.List;
 
 public class Employee {

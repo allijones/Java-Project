@@ -1,3 +1,10 @@
+/**
+ * The action interface ...
+ *
+ * @author Aidan Edwards
+ *
+ */
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -9,6 +16,12 @@ interface action {
     void run(ActionMenu parent);
 }
 
+/**
+ * The ActionMenu class ...
+ *
+ * @author Aidan Edwards
+ *
+ */
 public class ActionMenu {
     private List<action> actions = new ArrayList<action>();
     private List<String> descriptions = new ArrayList<String>();

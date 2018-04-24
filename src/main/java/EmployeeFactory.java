@@ -1,3 +1,10 @@
+/**
+ * The EmployeeFactory class ...
+ *
+ * @author Aidan Edwards
+ *
+ */
+
 public class EmployeeFactory {
     public static Employee create(String name, boolean[] schedule){
         Employee out = new Employee();

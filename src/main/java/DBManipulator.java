@@ -1,3 +1,10 @@
+/**
+ * The DBManipulator class ...
+ *
+ * @author Alli Jones and Aidan Edwards
+ *
+ */
+
 public class DBManipulator {
     protected DBInterface dbInterface;
 

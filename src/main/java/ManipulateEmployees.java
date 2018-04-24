@@ -1,3 +1,12 @@
+/**
+ * The ManipulateEmployees class extends DBManipulator.
+ * It has functions that access the database of employee names
+ * and ID numbers.
+ *
+ * @author Alli Jones
+ *
+ */
+
 import java.sql.*;
 import java.util.*;
 

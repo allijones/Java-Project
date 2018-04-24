@@ -1,3 +1,11 @@
+/**
+ * The DBInterface class establishes a database connection
+ * and creates the two tables: Employees and Week
+ *
+ * @author Alli Jones
+ *
+ */
+
 import java.sql.*;
 
 public class DBInterface {

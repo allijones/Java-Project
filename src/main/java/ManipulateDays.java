@@ -1,3 +1,12 @@
+/**
+ * The ManipulateDays class extends DBManipulator.
+ * It has functions that access the database of days and
+ * availability for each employee
+ *
+ * @author Alli Jones
+ *
+ */
+
 import java.sql.*;
 import java.util.*;
 
@@ -7,8 +16,8 @@ public class ManipulateDays extends DBManipulator {
     }
 
     /**
-     * save: Finds an employee by their ID number (or name?) and
-     * updates their avaiable days.
+     * save: Finds an employee by their ID number and
+     * updates their available days.
      *
      * @param p
      *
@@ -32,7 +41,7 @@ public class ManipulateDays extends DBManipulator {
 
     /**
      * availableMonday: returns a list of the IDs of people
-     * who are available monday to work
+     * who are available to work on a current day
      *
      * @param
      *

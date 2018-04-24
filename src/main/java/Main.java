@@ -1,3 +1,10 @@
+/**
+ * The Main class ...
+ *
+ * @author Aidan Edwards
+ *
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
