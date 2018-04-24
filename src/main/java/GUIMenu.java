@@ -4,10 +4,17 @@ import java.awt.event.ActionListener;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GUIMenu extends ActionMenu {
+    String title = null;
+
     public void run(){
         running.set(true);
         while(running.get()){
-            JFrame frame = new JFrame();
+            JFrame frame;
+            if(title == null){
+                frame = new JFrame();
+            }else{
+                frame = new JFrame(title);
+            }
             GUIMenu parent = this;
             int height = 40;
             AtomicInteger clicked = new AtomicInteger(0);
@@ -41,5 +48,9 @@ public class GUIMenu extends ActionMenu {
             //int n = in.nextInt() - 1;
             actions.get(clicked.get()).run(this);
         }
+    }
+
+    public void setTitle(String titleIn) {
+        title = titleIn;
     }
 }
