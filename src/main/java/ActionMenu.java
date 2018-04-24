@@ -22,9 +22,9 @@ interface action {
  * @author  Aidan Edwards
  */
 public class ActionMenu {
-    private List<action> actions = new ArrayList<action>();
-    private List<String> descriptions = new ArrayList<String>();
-    private AtomicReference<Boolean> running = new AtomicReference<>(false);
+    protected List<action> actions = new ArrayList<action>();
+    protected List<String> descriptions = new ArrayList<String>();
+    protected AtomicReference<Boolean> running = new AtomicReference<>(false);
 
     public void run(Scanner in, PrintStream out){
         running.set(true);

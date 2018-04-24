@@ -17,9 +17,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A program that can load employee schedule data, then save it in other formats
- *     and build a work schedule out of it.
+ * and build a work schedule out of it.
  *
- * @author  Aidan Edwards
+ * @author Aidan Edwards
  */
 public class Main {
     public static void main(String[] argv) throws SQLException {
@@ -31,7 +31,26 @@ public class Main {
 
         Scanner reader = new Scanner(System.in);
 
-        ActionMenu saveMenu = new ActionMenu();
+        AtomicBoolean useGUI = new AtomicBoolean(false);
+
+        ActionMenu uiSelect = new ActionMenu();
+        uiSelect.add("Use Terminal", (ActionMenu parent) -> {
+            useGUI.set(false);
+            parent.stop();
+        });
+        uiSelect.add("Use GUI", (ActionMenu parent) -> {
+            useGUI.set(true);
+            parent.stop();
+        });
+
+        uiSelect.run(reader, System.out);
+
+        ActionMenu saveMenu;
+        if (useGUI.get()) {
+            saveMenu = new GUIMenu();
+        } else {
+            saveMenu = new ActionMenu();
+        }
         saveMenu.add("Append to SQL", (ActionMenu parent) -> {
             try {
                 for (int i = 0; i < employees.size(); i++) {
@@ -84,7 +103,12 @@ public class Main {
         saveMenu.add("Cancel", ActionMenu::stop);
 
 
-        ActionMenu loadMenu = new ActionMenu();
+        ActionMenu loadMenu;
+        if (useGUI.get()) {
+            loadMenu = new GUIMenu();
+        } else {
+            loadMenu = new ActionMenu();
+        }
         loadMenu.add("Load Test Data", (ActionMenu parent) -> {
             employees.add(EmployeeFactory.create("Alli", new boolean[]{false, true, true, true, false, true, false}));
             employees.add(EmployeeFactory.create("Aidan", new boolean[]{false, true, true, true, false, false, true}));
@@ -131,7 +155,12 @@ public class Main {
             }
         });
 
-        ActionMenu mainMenu = new ActionMenu();
+        ActionMenu mainMenu;
+        if (useGUI.get()) {
+            mainMenu = new GUIMenu();
+        } else {
+            mainMenu = new ActionMenu();
+        }
         mainMenu.add("Display Data", (ActionMenu) -> {
             int idLength = 3;
             int nameLength = 4;
@@ -163,7 +192,7 @@ public class Main {
             employees.clear();
         });
         mainMenu.add("Build Schedule", (ActionMenu) -> {
-            List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 3);
+            List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 3, useGUI);
             System.out.print("\nEnter a name for the CSV file: ");
             String filename = reader.next();
             PrintWriter writer = null;
@@ -191,10 +220,10 @@ public class Main {
             try {
                 Scanner csvIn = new Scanner(new File(infilename));
                 String[] lines = new String[7];
-                for(int i = 0; i < 6; i++){
+                for (int i = 0; i < 6; i++) {
                     lines[i] = csvIn.nextLine();
                 }
-                List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 0);
+                List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 0, useGUI);
                 System.out.print("\nEnter a name for the CSV file: ");
                 String filename = reader.next();
                 PrintWriter writer = null;
@@ -207,7 +236,7 @@ public class Main {
                         e.printStackTrace();
                     }
                 }
-                for(int i = 0; i < 6; i++){
+                for (int i = 0; i < 6; i++) {
                     writer.print(lines[i]);
                     for (Employee employee : scheduled.get(i)) {
                         writer.print("," + employee.getId() + "," + employee.getName());
@@ -224,14 +253,24 @@ public class Main {
             System.out.println("\nThank you for using our software.");
         });
 
-        loadMenu.run(reader, System.out);
+        if (useGUI.get()) {
+            ((GUIMenu)loadMenu).run();
+        } else {
+            loadMenu.run(reader, System.out);
+        }
+
         loadMenu.add("Cancel", ActionMenu::stop);
-        mainMenu.run(reader, System.out);
+
+        if (useGUI.get()) {
+            ((GUIMenu)mainMenu).run();
+        } else {
+            mainMenu.run(reader, System.out);
+        }
 
         dbInterface.disconnect();
     }
 
-    private static List<Set<Employee>> buildSchedule(Scanner reader, ArrayList<Employee> employees, int minWorking) {
+    private static List<Set<Employee>> buildSchedule(Scanner reader, ArrayList<Employee> employees, int minWorking, AtomicBoolean useGUI) {
         List<Set<Employee>> scheduled = new ArrayList<>();
         for (int d = 0; d < 7; d++) {
             scheduled.add(new HashSet<>());
@@ -240,7 +279,12 @@ public class Main {
         AtomicInteger day = new AtomicInteger();
         while (scheduling.get()) {
             int countAvalible = 0;
-            ActionMenu selection = new ActionMenu();
+            ActionMenu selection;
+            if (useGUI.get()) {
+                selection = new GUIMenu();
+            } else {
+                selection = new ActionMenu();
+            }
             for (Employee employee : employees) {
                 if (employee.isAvalible(Day.fromIndex(day.get()))) {
                     countAvalible++;
@@ -277,7 +321,11 @@ public class Main {
                 }
             }
             System.out.print("\n" + Day.fromIndex(day.get()).name());
-            selection.run(reader, System.out);
+            if (useGUI.get()) {
+                ((GUIMenu)selection).run();
+            } else {
+                selection.run(reader, System.out);
+            }
         }
         return scheduled;
     }

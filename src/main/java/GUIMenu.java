@@ -1,0 +1,45 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class GUIMenu extends ActionMenu {
+    public void run(){
+        running.set(true);
+        while(running.get()){
+            JFrame frame = new JFrame();
+            GUIMenu parent = this;
+            int height = 40;
+            AtomicInteger clicked = new AtomicInteger(0);
+            for(int i = 0; i < actions.size(); i++){
+                JButton button = new JButton(descriptions.get(i));
+                button.setBounds(40, height, 200, 40);
+                int finalI = i;
+                button.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e){
+                        //Perform function when button is pressed
+                        clicked.set(finalI);
+                        synchronized (GUIMenu.this){
+                            GUIMenu.this.notifyAll();
+                        }
+                    }
+                });
+                frame.add(button);
+                height += 80;
+            }
+            frame.setSize(200 + 80, height + 40);
+            frame.setLayout(null);
+            frame.setVisible(true);
+            try {
+                synchronized (this){
+                    this.wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            frame.dispose();
+            //int n = in.nextInt() - 1;
+            actions.get(clicked.get()).run(this);
+        }
+    }
+}
