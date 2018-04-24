@@ -32,14 +32,14 @@ public class TestActionMenu {
     void testOne(){
         testMenu.run(new Scanner("4 2 3 1 4 4 5"), new NullPrintStream());
         int[] verify = {4, 2, 3, 1, 4, 4};
-        Assertions.assertArrayEquals(order.stream().mapToInt(i->i).toArray(), verify);
+        Assertions.assertArrayEquals(verify, order.stream().mapToInt(i->i).toArray());
         order.clear();
     }
     @Test
     void testTwo(){
         testMenu.run(new Scanner("1 2 3 4 3 2 1 2 3 2 1 1 1 2 3 4 3 4 3 3 3 5"), new NullPrintStream());
         int[] verify = {1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 1, 1, 2, 3, 4, 3, 4, 3, 3, 3};
-        Assertions.assertArrayEquals(order.stream().mapToInt(i->i).toArray(), verify);
+        Assertions.assertArrayEquals(verify, order.stream().mapToInt(i->i).toArray());
         order.clear();
     }
     @Test
@@ -49,7 +49,7 @@ public class TestActionMenu {
         });
         testMenu.run(new Scanner("1 2 6 3 4 1 2 6 3 2 4 6 1 2 3 6 1 2 3 4 5"), new NullPrintStream());
         int[] verify = {1, 2, 6, 3, 4, 1, 2, 6, 3, 2, 4, 6, 1, 2, 3, 6, 1, 2, 3, 4};
-        Assertions.assertArrayEquals(order.stream().mapToInt(i->i).toArray(), verify);
+        Assertions.assertArrayEquals(verify, order.stream().mapToInt(i->i).toArray());
         order.clear();
     }
 }

@@ -61,8 +61,8 @@ public class ManipulateEmployees extends DBManipulator{
      *
      * */
 
-    public ArrayList<Integer> idList = new ArrayList<Integer>();
-    public void findAll() throws SQLException {
+    public ArrayList<Integer> findAll() throws SQLException {
+        ArrayList<Integer> idList = new ArrayList<Integer>();
         String selectTableSQL = "SELECT * from EMPLOYEES";
         System.out.println(selectTableSQL);
         //statement.execute(selectTableSQL);
@@ -79,6 +79,7 @@ public class ManipulateEmployees extends DBManipulator{
                 //System.out.println("age: " + age);
             } while(rs.next());
         }
+        return idList;
     }
 
     /**
@@ -114,7 +115,7 @@ public class ManipulateEmployees extends DBManipulator{
      * @param
      *
      * */
-    public void count() throws SQLException {
+    public int count() throws SQLException {
         String countTableSQL = "SELECT COUNT (*) FROM EMPLOYEES";
         //System.out.println(countTableSQL);
         ResultSet rs = dbInterface.runStatement(countTableSQL);
@@ -122,6 +123,7 @@ public class ManipulateEmployees extends DBManipulator{
         int rowcount = rs.getInt(1);
         int rows = rowcount;
         System.out.println("There are " + rowcount + " entries.");
+        return rowcount;
     }
 
     /**
@@ -130,8 +132,8 @@ public class ManipulateEmployees extends DBManipulator{
      * @param
      *
      * */
-    public int getThisId;
-    public void findById(int newId) throws SQLException {
+    public String findById(int newId) throws SQLException {
+        String out;
         //how to set WHERE to e.id
         String selectTableSQL = "SELECT * from EMPLOYEES WHERE ID = " + newId;
         //System.out.println(selectTableSQL);
@@ -143,8 +145,9 @@ public class ManipulateEmployees extends DBManipulator{
         }
         do {
             System.out.println("Name: " + rs.getString("NAME"));
-            getThisId = rs.getInt("ID");
+            out = rs.getString("NAME");
         } while(rs.next());
+        return out;
     }
 
 

@@ -1,4 +1,6 @@
 database/
+testdaysdatabase/
+testemployeesdatabase/
 *.synctex.gz
 
 # Created by https://www.gitignore.io/api/java,linux,windows,intellij,intellij+all,intellij+iml
