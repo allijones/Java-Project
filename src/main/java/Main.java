@@ -5,6 +5,7 @@
  *
  */
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -80,16 +81,7 @@ public class Main {
             parent.stop();
         });
         saveMenu.add("Save to CSV", (ActionMenu parent) -> {
-            PrintWriter writer = null;
-            try {
-                System.out.print("Enter a name for the CSV file: ");
-                String filename = reader.next();
-                writer = new PrintWriter(filename, "UTF-8");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            PrintWriter writer = getPrintWriter(reader, useGUI);
             for (Employee employee : employees) {
                 writer.print(employee.getId() + "," + employee.getName() + ",");
                 for (Boolean day : employee.getSchedule()) {
@@ -136,8 +128,7 @@ public class Main {
         });
         loadMenu.add("Load from CSV", (ActionMenu parent) -> {
             try {
-                System.out.print("Enter the CSV file's name: ");
-                String filename = reader.next();
+                String filename = getCSVSource(reader, useGUI);;
                 Scanner csvIn = new Scanner(new File(filename));
 
                 while (csvIn.hasNext()) {
@@ -183,28 +174,26 @@ public class Main {
             }
         });
         mainMenu.add("Save Data", (ActionMenu) -> {
-            saveMenu.run(reader, System.out);
+            if (useGUI.get()) {
+                ((GUIMenu)saveMenu).run();
+            } else {
+                saveMenu.run(reader, System.out);
+            }
         });
         mainMenu.add("Load Data", (ActionMenu) -> {
-            loadMenu.run(reader, System.out);
+            if (useGUI.get()) {
+                ((GUIMenu)loadMenu).run();
+            } else {
+                loadMenu.run(reader, System.out);
+            }
         });
         mainMenu.add("Clear Loaded Data", (ActionMenu) -> {
             employees.clear();
         });
         mainMenu.add("Build Schedule", (ActionMenu) -> {
             List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 3, useGUI);
-            System.out.print("\nEnter a name for the CSV file: ");
-            String filename = reader.next();
             PrintWriter writer = null;
-            while (writer == null) {
-                try {
-                    writer = new PrintWriter(filename, "UTF-8");
-                } catch (FileNotFoundException e) {
-                    System.out.println("Invalid path, try again: ");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
+            writer = getPrintWriter(reader, useGUI);
             for (int i = 0; i < 7; i++) {
                 writer.print(Day.fromIndex(i).name());
                 for (Employee employee : scheduled.get(i)) {
@@ -215,8 +204,7 @@ public class Main {
             writer.close();
         });
         mainMenu.add("Add to Schedule", (ActionMenu) -> {
-            System.out.print("Path to source CSV file: ");
-            String infilename = reader.next();
+            String infilename = getCSVSource(reader, useGUI);
             try {
                 Scanner csvIn = new Scanner(new File(infilename));
                 String[] lines = new String[7];
@@ -224,18 +212,8 @@ public class Main {
                     lines[i] = csvIn.nextLine();
                 }
                 List<Set<Employee>> scheduled = Main.buildSchedule(reader, employees, 0, useGUI);
-                System.out.print("\nEnter a name for the CSV file: ");
-                String filename = reader.next();
                 PrintWriter writer = null;
-                while (writer == null) {
-                    try {
-                        writer = new PrintWriter(filename, "UTF-8");
-                    } catch (FileNotFoundException e) {
-                        System.out.println("Invalid path, try again: ");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }
+                writer = getPrintWriter(reader, useGUI);
                 for (int i = 0; i < 6; i++) {
                     writer.print(lines[i]);
                     for (Employee employee : scheduled.get(i)) {
@@ -245,7 +223,11 @@ public class Main {
                 }
                 writer.close();
             } catch (FileNotFoundException e) {
-                System.out.println("Invalid path.");
+                if(useGUI.get()){
+                    JOptionPane.showMessageDialog(null, "Invalid path.");
+                }else {
+                    System.out.println("Invalid path.");
+                }
             }
         });
         mainMenu.add("Exit", (ActionMenu parent) -> {
@@ -268,6 +250,44 @@ public class Main {
         }
 
         dbInterface.disconnect();
+    }
+
+    private static PrintWriter getPrintWriter(Scanner reader, AtomicBoolean useGUI) {
+        String filename;
+        PrintWriter writer = null;
+        if(useGUI.get()){
+            filename = JOptionPane.showInputDialog("Enter a name for the CSV file:");
+        }else{
+            System.out.print("\nEnter a name for the CSV file: ");
+            filename = reader.next();
+        }
+        while (writer == null) {
+            try {
+                writer = new PrintWriter(filename, "UTF-8");
+            } catch (FileNotFoundException e) {
+                if(useGUI.get()){
+                    filename = JOptionPane.showInputDialog("Invalid path, try again: ");
+                }else{
+                    System.out.print("Invalid path, try again: ");
+                    filename = reader.next();
+
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        return writer;
+    }
+
+    public static String getCSVSource(Scanner reader, AtomicBoolean useGUI){
+        String infilename;
+        if(useGUI.get()){
+            infilename = JOptionPane.showInputDialog("Path to source CSV file:");
+        }else{
+            System.out.print("Path to source CSV file: ");
+            infilename = reader.next();
+        }
+        return infilename;
     }
 
     private static List<Set<Employee>> buildSchedule(Scanner reader, ArrayList<Employee> employees, int minWorking, AtomicBoolean useGUI) {
@@ -320,7 +340,11 @@ public class Main {
                     });
                 }
             }
-            System.out.print("\n" + Day.fromIndex(day.get()).name());
+            if (useGUI.get()) {
+                ((GUIMenu)selection).setTitle(Day.fromIndex(day.get()).name());
+            } else {
+                System.out.print("\n" + Day.fromIndex(day.get()).name());
+            }
             if (useGUI.get()) {
                 ((GUIMenu)selection).run();
             } else {
