@@ -1,17 +1,11 @@
+import java.sql.*;
+
 /**
  * The DBInterface class establishes a database connection
  * and creates the two tables: Employees and Week
  *
  * @author Alli Jones
  *
- */
-
-import java.sql.*;
-
-/**
- * An interface between an SQL database and the Java program.
- *
- * @author  Aidan Edwards
  */
 public class DBInterface {
     private DBInterface(String database) throws SQLException {

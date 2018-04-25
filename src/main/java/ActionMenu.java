@@ -1,17 +1,15 @@
-/**
- * The action interface ...
- *
- * @author Aidan Edwards
- *
- */
-
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * The action interface represents a lambda
+ *
+ * @author Aidan Edwards
+ *
+ */
 interface action {
     void run(ActionMenu parent);
 }

@@ -1,12 +1,11 @@
 /**
- * The Main class ...
+ * The Main class creates and runs sever menus for managing the data.
  *
  * @author Aidan Edwards
  *
  */
 
 import info.clearthought.layout.TableLayout;
-import info.clearthought.layout.TableLayoutConstants;
 
 import javax.swing.*;
 import java.io.File;
@@ -15,7 +14,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
-import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
