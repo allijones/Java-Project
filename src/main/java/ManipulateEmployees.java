@@ -7,6 +7,8 @@
  *
  */
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.sql.*;
 import java.util.*;
 
@@ -40,7 +42,7 @@ public class ManipulateEmployees extends DBManipulator{
         //otherwise, update that ID number
         else {
             String updateTableSQL = "UPDATE EMPLOYEES " +
-                    " SET NAME = " +"'"+p.getName() + "'" +
+                    " SET NAME = " +"'"+StringUtils.replace(p.getName(), "'", "''") + "'" +
                     " WHERE ID = " + p.getId() ;
             System.out.println(updateTableSQL);
             // execute update SQL stetement
