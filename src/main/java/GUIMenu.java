@@ -56,7 +56,9 @@ public class GUIMenu extends ActionMenu {
             }
             frame.dispose();
             //int n = in.nextInt() - 1;
-            actions.get(clicked.get()).run(this);
+            if(clicked.get() > 0 && clicked.get() < actions.size()){
+                actions.get(clicked.get()).run(this);
+            }
         }
     }
 

@@ -35,7 +35,9 @@ public class ActionMenu {
                 out.println((i + 1) + ". " + descriptions.get(i));
             }
             int n = in.nextInt() - 1;
-            actions.get(n).run(this);
+            if(n > 0 && n < actions.size()){
+                actions.get(n).run(this);
+            }
         }
     }
 
