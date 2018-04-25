@@ -15,6 +15,7 @@ public class GUIMenu extends ActionMenu {
             }else{
                 frame = new JFrame(title);
             }
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             GUIMenu parent = this;
             int height = 40;
             AtomicInteger clicked = new AtomicInteger(0);
