@@ -5,6 +5,9 @@
  *
  */
 
+import info.clearthought.layout.TableLayout;
+import info.clearthought.layout.TableLayoutConstants;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +15,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
+import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -153,24 +157,96 @@ public class Main {
             mainMenu = new ActionMenu();
         }
         mainMenu.add("Display Data", (ActionMenu) -> {
-            int idLength = 3;
-            int nameLength = 4;
-            for (Employee employee : employees) {
-                idLength = Math.max(idLength, (int) Math.log10(employee.getId()));
-                nameLength = Math.max(nameLength, employee.getName().length());
-            }
-            idLength += 1;
-            nameLength += 1;
-            System.out.print(String.format("%1$-" + idLength + "s", "ID"));
-            System.out.print(String.format("%1$-" + nameLength + "s", "Name"));
-            System.out.println("S M T W R F S");
-            for (Employee employee : employees) {
-                System.out.print(String.format("%1$-" + idLength + "s", employee.getId()));
-                System.out.print(String.format("%1$-" + nameLength + "s", employee.getName()));
-                for (int i = 0; i < 7; i++) {
-                    System.out.print(employee.getSchedule()[i] ? "X " : "  ");
+            if(useGUI.get()){
+                //DisplayTable table = new DisplayTable(employees);
+                //table.setVisible(true);
+                JFrame frame = new JFrame("Example of TableLayout");
+
+                //double size[][] = {{10, 75, 75, 75, 75, 75, 10}, // Columns
+                //        {10, 75, 75, 75, 75, 75, 10}}; // Rows
+
+                double size[][] = {{50, TableLayout.FILL, 30, 30, 30, 30, 30, 30, 30}, new double[1 + employees.size()]};
+
+                size[1][0] = 50;
+
+                for(int i = 1; i < employees.size(); i++){
+                    size[1][i] = 30;
                 }
-                System.out.println();
+
+                double width = 0;
+                double height = 0;
+                for(double s : size[0]){
+                    width += s;
+                }
+                for(double s : size[1]){
+                    height += s;
+                }
+
+                frame.setSize((int)width+125, (int)height+75);
+
+                frame.setLayout(new TableLayout(size));
+
+                String[] columnNames = {"ID", "  Name", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+
+                JLabel[][] text = new JLabel[employees.size()][9];
+
+                for(int c = 0; c < 9; c++){
+                    text[0][c] = new JLabel(columnNames[c]);
+                    if(c >= 2) {
+                        frame.add(text[0][c], c + ", " + 0 + ", c, c");
+                    }
+                }
+                frame.add(text[0][0], 0 + ", " + 0 + ", r, c");
+                frame.add(text[0][1], 1 + ", " + 0 + ", l, c");
+                for (int r = 0; r < employees.size(); r++) {
+                    text[r][0] = new JLabel(Integer.toString(employees.get(r).getId()));
+                    text[r][1] = new JLabel("  " + employees.get(r).getName());
+                    for (int d = 0; d < 7; d++) {
+                        text[r][2 + d] = new JLabel(employees.get(r).isAvalible(Day.fromIndex(d))?"X":" ");
+                    }
+                    frame.add(text[r][0], 0 + ", " + (r + 1) + ", r, c");
+                    frame.add(text[r][1], 1 + ", " + (r + 1) + ", l, c");
+                    for(int c = 2; c < 9; c++){
+                        frame.add(text[r][c], c + ", " + (r + 1) + ", c, c");
+                    }
+                }
+
+                String label[] = {"(1,1)", "(1,5)", "(1,3)", "(5,3)", "(3,3)"};
+                JButton button[] = new JButton[label.length];
+
+                for (int i = 0; i < label.length; i++) {
+                    button[i] = new JButton(label[i]);
+                }
+
+
+                //frame.add(button[0], "1, 1");
+                //frame.add(button[1], "1, 5");
+                //frame.add(button[2], "1, 3");
+                //frame.add(button[3], "5, 3");
+                //frame.add(button[4], "3, 3");
+
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setVisible(true);
+            }else{
+                int idLength = 3;
+                int nameLength = 4;
+                for (Employee employee : employees) {
+                    idLength = Math.max(idLength, (int) Math.log10(employee.getId()));
+                    nameLength = Math.max(nameLength, employee.getName().length());
+                }
+                idLength += 1;
+                nameLength += 1;
+                System.out.print(String.format("%1$-" + idLength + "s", "ID"));
+                System.out.print(String.format("%1$-" + nameLength + "s", "Name"));
+                System.out.println("S M T W R F S");
+                for (Employee employee : employees) {
+                    System.out.print(String.format("%1$-" + idLength + "s", employee.getId()));
+                    System.out.print(String.format("%1$-" + nameLength + "s", employee.getName()));
+                    for (int i = 0; i < 7; i++) {
+                        System.out.print(employee.getSchedule()[i] ? "X " : "  ");
+                    }
+                    System.out.println();
+                }
             }
         });
         mainMenu.add("Save Data", (ActionMenu) -> {
