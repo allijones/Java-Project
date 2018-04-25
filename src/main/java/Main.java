@@ -46,6 +46,7 @@ public class Main {
             parent.stop();
         });
 
+        System.out.println();
         uiSelect.run(reader, System.out);
 
         ActionMenu saveMenu;

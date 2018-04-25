@@ -29,11 +29,12 @@ public class ActionMenu {
 
     public void run(Scanner in, PrintStream out){
         running.set(true);
-        out.println();
         while(running.get()){
+            out.println();
             for(int i = 0; i < actions.size(); i++){
                 out.println((i + 1) + ". " + descriptions.get(i));
             }
+            out.print("Please select an option: ");
             int n = in.nextInt() - 1;
             if(n >= 0 && n < actions.size()){
                 actions.get(n).run(this);
