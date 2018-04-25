@@ -3,6 +3,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * GUIMenu adds a graphical interface to ActionMenu
+ *
+ * GUIMenu is a decorator over ActionMenu
+ * Commands are executed every time a JButton is pressed.
+ * The run method contains a JFrame, which is a mediator between the program and all the widgets it uses.
+ *
+ * @author  Aidan Edwards
+ */
 public class GUIMenu extends ActionMenu {
     String title = null;
 

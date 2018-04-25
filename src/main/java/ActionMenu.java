@@ -17,6 +17,9 @@ interface action {
 /**
  * A manager for a menu dynamically generated with lambdas.
  *
+ * A Command is executed every time an option is picked.
+ * An ActionMenu object is a State that lasts from when `run` is called to when `stop` is called.
+ *
  * @author  Aidan Edwards
  */
 public class ActionMenu {

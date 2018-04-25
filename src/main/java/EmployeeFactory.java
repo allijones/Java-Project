@@ -1,6 +1,8 @@
 /**
  * Factory methods for easily creating Employee objects.
  *
+ * EmployeeFactory contains 2 Factory Methods to facilitate easy creation of Employee objects.
+ *
  * @author  Aidan Edwards
  */
 public class EmployeeFactory {

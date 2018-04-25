@@ -4,6 +4,9 @@ import java.sql.*;
  * The DBInterface class establishes a database connection
  * and creates the two tables: Employees and Week
  *
+ * DBInterface is a Singleton, as only one connection can be made to a Derby database.
+ * DBInterface is a Facade over Java's SQL implementation for easy use.
+ *
  * @author Alli Jones
  *
  */
